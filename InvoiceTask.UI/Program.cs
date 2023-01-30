@@ -6,6 +6,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<ICountryServices, CountryServices>();
+builder.Services.AddScoped<ICalculateVatServices, CalculateVatServices>();
+
 
 
 var app = builder.Build();
@@ -31,15 +33,11 @@ app.MapControllerRoute(
 
 //hardcode values
 
-ICountryServices countryServices = new CountryServices();
-CalculateVatServices vatServices = new CalculateVatServices();
-ClientModel clientEurope = new() { ClientRegion = "Europe" };
-SellerModel selleAsia = new SellerModel { Region = "Asia" };
+var vatServices = new CalculateVatServices();
+ClientModel clientEurope = new() { ClientRegion = "Europe" , ClientIsVatPayer = true};
+SellerModel selleAsia = new() { Region = "Asia" , IsVat = true};
 
-countryServices.AddVatToCountries();
-countryServices.GetCountriesFromApiAsync();
 vatServices.CheckVatForClient(clientEurope, selleAsia);
-
 
 
 app.Run();

@@ -1,10 +1,6 @@
 ﻿using InvoiceTask.Repository.Models;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace InvoiceTask.Business.Services;
 
@@ -13,26 +9,7 @@ public class CountryServices : ICountryServices
     public async Task<Dictionary<string, CountriesModel>> GetCountriesFromApiAsync()
     {
         var root = new Dictionary<string, CountriesModel>();
-        //using (var client = new HttpClient())
-        //{
-        //    var response = await client.GetAsync("https://api.first.org/data/v1/countries");
-
-        //    if (response.IsSuccessStatusCode)
-        //    {
-        //        Random rnd = new Random();
-        //        string data = await response.Content.ReadAsStringAsync();
-        //        RootCountryObject obj = JsonConvert.DeserializeObject<RootCountryObject>(data);
-        //        foreach (var entry in obj.CountriesData)
-        //        {
-        //            root.Add(entry.Key, entry.Value);
-        //        }
-
-
-
-        //    }
-        //    return root;
-        //}
-
+    
         using (var client = new HttpClient())
         {
             var response = await client.GetAsync("https://api.first.org/data/v1/countries");
@@ -41,12 +18,14 @@ public class CountryServices : ICountryServices
             {
                 string data = await response.Content.ReadAsStringAsync();
                 RootCountryObject obj = JsonConvert.DeserializeObject<RootCountryObject>(data);
+
                 if (obj != null)
                 {
                     foreach (var entry in obj.CountriesData)
                     {
                         root.Add(entry.Key, entry.Value);
                     }
+                    AddVatToCountries(root);
                     return root;
                 }
                 else
@@ -61,9 +40,9 @@ public class CountryServices : ICountryServices
         }
     }
 
-    public async void AddVatToCountries()
+    public void AddVatToCountries(Dictionary<string, CountriesModel> model)
     {
-        var model = await GetCountriesFromApiAsync();
+        //var model = await GetCountriesFromApiAsync();
         var vat1 = 20;
         var vat2 = 15;
         var vat3 = 10;

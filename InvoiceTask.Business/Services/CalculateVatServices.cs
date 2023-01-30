@@ -1,22 +1,19 @@
 ﻿using InvoiceTask.Repository.Models;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.Design;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace InvoiceTask.Business.Services
 {
-    public class CalculateVatServices
+    public class CalculateVatServices : ICalculateVatServices
     {
-        private readonly CountryServices _countryServices;
-     
+        private readonly ICountryServices _countryServices;
 
-        public async Task<double> CheckVatForClient(ClientModel client, SellerModel seller)
+        public CalculateVatServices()
         {
+            _countryServices = new CountryServices();
+        }
 
-
+        public double CheckVatForClient(ClientModel client, SellerModel seller)
+        {
             if (seller.IsVat == false)
             {
                 return 0;
@@ -27,24 +24,25 @@ namespace InvoiceTask.Business.Services
             }
             if (seller.IsVat && client.ClientRegion == "Europe" && client.ClientRegion != seller.Region)
             {
-                var result = await GetVatByCountry(seller.Region);
+                var result = GetVatByCountry(seller.Region);
                 return result;
             }
             if (seller.IsVat && seller.Region == client.ClientRegion)
             {
-                double result = await GetVatByCountry(seller.Region);
+                double result = GetVatByCountry(seller.Region);
                 return result;
             }
             return 0;
-
-
         }
 
-        private async Task<double> GetVatByCountry(string countryCode)
+        private double GetVatByCountry(string countryCode)
         {
-            var coutryResult = await _countryServices.GetCountriesFromApiAsync();
-            var vat = coutryResult.Values.FirstOrDefault(x => x.Country == countryCode).CountryVat;
+            var coutryResult = _countryServices.GetCountriesFromApiAsync().Result;
+
+            var vat = coutryResult.Values.Where(x => x.Region == countryCode).FirstOrDefault().CountryVat;    
+
             return vat;
         }
     }
 }
+

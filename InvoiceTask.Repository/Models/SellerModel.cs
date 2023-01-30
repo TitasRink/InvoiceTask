@@ -9,6 +9,6 @@ namespace InvoiceTask.Repository.Models
     public class SellerModel 
     {
         public string Region { get; set; }
-        public bool IsVat { get; } = true;
+        public bool IsVat { get; set; } = true;
     }
 }
