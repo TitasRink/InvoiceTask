@@ -1,7 +1,12 @@
+using InvoiceTask.Business.Services;
+using InvoiceTask.Repository.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<ICountryServices, CountryServices>();
+
 
 var app = builder.Build();
 
@@ -24,4 +29,20 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+//hardcode values
+
+ICountryServices countryServices = new CountryServices();
+CalculateVatServices vatServices = new CalculateVatServices();
+ClientModel clientEurope = new() { ClientRegion = "Europe" };
+SellerModel selleAsia = new SellerModel { Region = "Asia" };
+
+countryServices.AddVatToCountries();
+countryServices.GetCountriesFromApiAsync();
+vatServices.CheckVatForClient(clientEurope, selleAsia);
+
+
+
 app.Run();
+
+
+

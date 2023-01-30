@@ -15,6 +15,6 @@ namespace InvoiceTask.Repository.Models
         [JsonProperty("region")]
         public string Region { get; set; }
 
-        public int CountryVat { get; set; }
+        public double CountryVat { get; set; }
     }
 }

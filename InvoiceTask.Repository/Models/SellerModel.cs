@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace InvoiceTask.Repository.Models
 {
-    public class SellerModel
+    public class SellerModel 
     {
-        public string Name { get; set; }
-        public int Vat { get; set; }
+        public string Region { get; set; }
+        public bool IsVat { get; } = true;
     }
 }

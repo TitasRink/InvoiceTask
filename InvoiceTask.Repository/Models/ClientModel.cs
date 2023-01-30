@@ -9,5 +9,6 @@ namespace InvoiceTask.Repository.Models
     public class ClientModel
     {
         public bool ClientIsVatPayer { get; set; } = true;
+        public string ClientRegion { get; set; } 
     }
 }
