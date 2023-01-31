@@ -43,9 +43,9 @@ public class CalculateVatServices : ICalculateVatServices
         {
             throw new Exception();
         }
-        if(coutryResult.Values.Where(x => x.Region == countryCode).FirstOrDefault().CountryVat == 0)
+        if(coutryResult.Values.Where(x => x.Region == countryCode).FirstOrDefault().CountryVat == null)
         {
-            return 0;
+            throw new Exception();
         }
         double vat = coutryResult.Values.Where(x => x.Region == countryCode).FirstOrDefault().CountryVat;    
         return vat;
