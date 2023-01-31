@@ -43,10 +43,10 @@ public class CountryServices : ICountryServices
     public void AddVatToCountries(Dictionary<string, CountriesModel> model)
     {
         //var model = await GetCountriesFromApiAsync();
-        var vat1 = 20;
-        var vat2 = 15;
-        var vat3 = 10;
-        var vat4 = 30;
+        var Africa = 20;
+        var Antarctic = 15;
+        var Asia = 10;
+        var CentralAmerica = 30;
 
         var regionDistinct = model.Values.Select(x => x.Region).Distinct().ToList();
 
@@ -54,19 +54,19 @@ public class CountryServices : ICountryServices
         {
             foreach (var item in model.Values.Where(x => x.Region == regionDistinct[0].ToString()))
             {
-                item.CountryVat = vat1;
+                item.CountryVat = Africa;
             }
             foreach (var item in model.Values.Where(x => x.Region == regionDistinct[1].ToString()))
             {
-                item.CountryVat = vat2;
+                item.CountryVat = Antarctic;
             }
             foreach (var item in model.Values.Where(x => x.Region == regionDistinct[2].ToString()))
             {
-                item.CountryVat = vat3;
+                item.CountryVat = Asia;
             }
             foreach (var item in model.Values.Where(x => x.Region == regionDistinct[3].ToString()))
             {
-                item.CountryVat = vat4;
+                item.CountryVat = CentralAmerica;
             }
         }
     }

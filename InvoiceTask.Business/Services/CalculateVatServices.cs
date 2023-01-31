@@ -18,7 +18,7 @@ namespace InvoiceTask.Business.Services
             {
                 return 0;
             }
-            if (seller.IsVat && client.ClientRegion != "Europe")
+            if (seller.IsVat && client.ClientRegion != "Europe" && seller.Region == " Europe")
             {
                 return 0;
             }

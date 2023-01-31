@@ -34,9 +34,12 @@ app.MapControllerRoute(
 //hardcode values
 
 var vatServices = new CalculateVatServices();
-ClientModel clientEurope = new() { ClientRegion = "Europe" , ClientIsVatPayer = true};
-SellerModel selleAsia = new() { Region = "Asia" , IsVat = true};
+var countryServices = new CountryServices();
 
+countryServices.GetCountriesFromApiAsync();
+
+ClientModel clientEurope = new() { ClientRegion = "Europe", ClientIsVatPayer = true};
+SellerModel selleAsia = new() { Region = "Asia", IsVat = true};
 vatServices.CheckVatForClient(clientEurope, selleAsia);
 
 
