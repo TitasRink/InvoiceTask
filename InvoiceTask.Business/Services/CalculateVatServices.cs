@@ -1,48 +1,52 @@
 ﻿using InvoiceTask.Repository.Models;
 
+namespace InvoiceTask.Business.Services;
 
-namespace InvoiceTask.Business.Services
+public class CalculateVatServices : ICalculateVatServices
 {
-    public class CalculateVatServices : ICalculateVatServices
+    private readonly ICountryServices _countryServices;
+
+    public CalculateVatServices()
     {
-        private readonly ICountryServices _countryServices;
+        _countryServices = new CountryServices();
+    }
 
-        public CalculateVatServices()
+    public double CheckVatForClient(ClientModel client, SellerModel seller)
+    {
+        if (client == null || seller == null)
         {
-            _countryServices = new CountryServices();
+            throw new Exception();
         }
-
-        public double CheckVatForClient(ClientModel client, SellerModel seller)
+        if (seller.IsVatPayer == false)
         {
-            if (seller.IsVat == false)
-            {
-                return 0;
-            }
-            if (seller.IsVat && client.ClientRegion != "Europe" && seller.Region == " Europe")
-            {
-                return 0;
-            }
-            if (seller.IsVat && client.ClientRegion == "Europe" && client.ClientRegion != seller.Region)
-            {
-                var result = GetVatByCountry(seller.Region);
-                return result;
-            }
-            if (seller.IsVat && seller.Region == client.ClientRegion)
-            {
-                double result = GetVatByCountry(seller.Region);
-                return result;
-            }
             return 0;
         }
-
-        private double GetVatByCountry(string countryCode)
+        if (seller.IsVatPayer && client.Region != "Europe" && seller.Region == " Europe")
         {
-            var coutryResult = _countryServices.GetCountriesFromApiAsync().Result;
-
-            var vat = coutryResult.Values.Where(x => x.Region == countryCode).FirstOrDefault().CountryVat;    
-
-            return vat;
+            return 0;
         }
+        if (seller.IsVatPayer && client.Region == "Europe" && client.Region != seller.Region)
+        {
+            double result = GetVatByCountry(seller.Region);
+            return result;
+        }
+        if (seller.IsVatPayer && seller.Region == client.Region)
+        {
+            double result = GetVatByCountry(seller.Region);
+            return result;
+        }
+        return 0;
+    }
+
+    private double GetVatByCountry(string countryCode)
+    {
+        var coutryResult = _countryServices.GetCountriesFromApiAsync().Result;
+        if (coutryResult == null)
+        {
+            throw new Exception();
+        }
+        double vat = coutryResult.Values.Where(x => x.Region == countryCode).FirstOrDefault().CountryVat;    
+        return vat;
     }
 }
 

@@ -31,16 +31,16 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-//hardcode values
+//hardcode values for testing
 
-var vatServices = new CalculateVatServices();
-var countryServices = new CountryServices();
+//var vatServices = new CalculateVatServices();
+//var countryServices = new CountryServices();
 
-countryServices.GetCountriesFromApiAsync();
+//countryServices.GetCountriesFromApiAsync();
 
-ClientModel clientEurope = new() { ClientRegion = "Europe", ClientIsVatPayer = true};
-SellerModel selleAsia = new() { Region = "Asia", IsVat = true};
-vatServices.CheckVatForClient(clientEurope, selleAsia);
+//ClientModel clientEurope = new() { Region = "Europe", IsVatPayer = true};
+//SellerModel selleAsia = new() { Region = "Asia", IsVatPayer = true};
+//vatServices.CheckVatForClient(clientEurope, selleAsia);
 
 
 app.Run();

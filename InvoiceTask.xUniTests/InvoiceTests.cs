@@ -10,22 +10,25 @@ namespace InvoiceTask.xUniTests
         //VAT Asia = 10;
         //VAT CentralAmerica = 30;
 
-        ClientModel client;
-        SellerModel seller;
-
         ICalculateVatServices vatServices = new CalculateVatServices();
         ICountryServices countryServices = new CountryServices();
+
+        ClientModel client;
+        SellerModel seller;
 
         // TASK 1
         [Fact]
         public async void When_SellerVatIsFalse_ReturnZero()
         {
-            client = new() { ClientRegion = "Europe", ClientIsVatPayer = true };
-            seller = new() { Region = "Antarctic", IsVat = false};
+            // Arrange
+            client = new() { Region = "Europe", IsVatPayer = true };
+            seller = new() { Region = "Antarctic", IsVatPayer = false};
 
+            // Act
             await Task.Run(() => countryServices.GetCountriesFromApiAsync());
             var result = await Task.Run(() => vatServices.CheckVatForClient(client, seller));
 
+            // Assert
             Assert.Equal(0, result);
         }
 
@@ -33,12 +36,15 @@ namespace InvoiceTask.xUniTests
         [Fact]
         public async void When_ClientNotFromEurope_ReturnZero()
         {
-            client = new() { ClientRegion = "Asia" };
+            // Arrange
+            client = new() { Region = "Asia" };
             seller = new(){ Region = "Europe" };
 
+            // Act
             await Task.Run(() => countryServices.GetCountriesFromApiAsync());
             var result = await Task.Run(() => vatServices.CheckVatForClient(client, seller));
 
+            // Assert
             Assert.Equal(0, result);
         }
 
@@ -46,12 +52,15 @@ namespace InvoiceTask.xUniTests
         [Fact]
         public async void When_ClientAndSellerNotFromSameRegion_ReturnSellerRegionVat()
         {
-            client = new() { ClientRegion = "Europe" };
+            // Arrange
+            client = new() { Region = "Europe" };
             seller = new() { Region = "Asia" };
 
+            // Act
             await Task.Run(() => countryServices.GetCountriesFromApiAsync());
             var result = await Task.Run(() => vatServices.CheckVatForClient(client, seller));
 
+            // Assert
             Assert.Equal(10, result);
         }
 
@@ -59,12 +68,15 @@ namespace InvoiceTask.xUniTests
         [Fact]
         public async void When_ClientAndSellerFromSameRegion_ReturnRegionVat()
         {
-            client = new() { ClientRegion = "Central America" };
+            // Arrange
+            client = new() { Region = "Central America" };
             seller = new() { Region = "Central America" };
 
+            // Act
             await Task.Run(() => countryServices.GetCountriesFromApiAsync());
             var result = await Task.Run(() => vatServices.CheckVatForClient(client, seller));
 
+            // Assert
             Assert.Equal(30, result);
         }
     }

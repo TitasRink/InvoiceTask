@@ -1,16 +1,9 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace InvoiceTask.Repository.Models
+namespace InvoiceTask.Repository.Models;
+
+public class RootCountryObject
 {
-    public class RootCountryObject
-    {
-
-        [JsonProperty("data")]
-        public Dictionary<string, CountriesModel> CountriesData { get; set; }
-    }
+    [JsonProperty("data")]
+    public Dictionary<string, CountriesModel> CountriesData { get; set; }
 }
