@@ -2,6 +2,6 @@
 
 public class ClientModel
 {
-    public bool IsVatPayer { get; set; } = true;
+    public bool isBusinessCustomer { get; set; } = true;
     public string Region { get; set; } 
 }

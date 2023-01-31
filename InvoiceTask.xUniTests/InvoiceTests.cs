@@ -21,7 +21,7 @@ namespace InvoiceTask.xUniTests
         public async void When_SellerVatIsFalse_ReturnZero()
         {
             // Arrange
-            client = new() { Region = "Europe", IsVatPayer = true };
+            client = new() { Region = "Europe", isBusinessCustomer = true };
             seller = new() { Region = "Antarctic", IsVatPayer = false};
 
             // Act

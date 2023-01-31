@@ -1,6 +1,4 @@
-﻿using InvoiceTask.Repository.Models;
-
-namespace InvoiceTask.Business.Services
+﻿namespace InvoiceTask.Business.Services
 {
     public interface ICalculateVatServices
     {

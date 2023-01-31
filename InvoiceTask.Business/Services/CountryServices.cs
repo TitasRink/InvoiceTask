@@ -1,5 +1,4 @@
-﻿using InvoiceTask.Repository.Models;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace InvoiceTask.Business.Services;
 
@@ -7,32 +6,31 @@ public class CountryServices : ICountryServices
 {
     public async Task<Dictionary<string, CountriesModel>> GetCountriesFromApiAsync()
     {
-        var root = new Dictionary<string, CountriesModel>();
-    
-        using (var client = new HttpClient())
-        {
-            var response = await client.GetAsync("https://api.first.org/data/v1/countries");
-           
-            if (response.IsSuccessStatusCode)
-            {
-                string data = await response.Content.ReadAsStringAsync();
-                RootCountryObject obj = JsonConvert.DeserializeObject<RootCountryObject>(data);
+        Dictionary<string, CountriesModel> root = new();
 
-                if (obj != null)
+        using var client = new HttpClient();
+        var response = await client.GetAsync("https://api.first.org/data/v1/countries");
+
+        if (response.IsSuccessStatusCode)
+        {
+            string data = await response.Content.ReadAsStringAsync();
+            RootCountryObject obj = JsonConvert.DeserializeObject<RootCountryObject>(data);
+
+            if (obj != null)
+            {
+                foreach (var entry in obj.CountriesData)
                 {
-                    foreach (var entry in obj.CountriesData)
-                    {
-                        root.Add(entry.Key, entry.Value);
-                    }
-                    AddVatToCountries(root);
-                    return root;
+                    root.Add(entry.Key, entry.Value);
                 }
-                throw new Exception();
+                AddVatToCountries(root);
+                return root;
             }
             throw new Exception();
         }
+        throw new Exception();
     }
 
+    //Adding Vat to regions
     public void AddVatToCountries(Dictionary<string, CountriesModel> model)
     {
         double Africa = 20;

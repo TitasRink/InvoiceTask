@@ -1,14 +1,12 @@
-﻿using InvoiceTask.Repository.Models;
-
-namespace InvoiceTask.Business.Services;
+﻿namespace InvoiceTask.Business.Services;
 
 public class CalculateVatServices : ICalculateVatServices
 {
-    private readonly ICountryServices _countryServices;
+    ICountryServices _countryServices = new CountryServices();
 
     public CalculateVatServices()
     {
-        _countryServices = new CountryServices();
+      
     }
 
     public double CheckVatForClient(ClientModel client, SellerModel seller)
@@ -45,7 +43,7 @@ public class CalculateVatServices : ICalculateVatServices
         {
             throw new Exception();
         }
-        double vat = coutryResult.Values.Where(x => x.Region == countryCode).FirstOrDefault().CountryVat;    
+        double vat = coutryResult.Values.FirstOrDefault(x => x.Region == countryCode).CountryVat;    
         return vat;
     }
 }
