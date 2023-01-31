@@ -2,11 +2,11 @@
 
 public class CalculateVatServices : ICalculateVatServices
 {
-    ICountryServices _countryServices = new CountryServices();
+    private ICountryServices _countryServices;
 
     public CalculateVatServices()
     {
-      
+        _countryServices = new CountryServices();
     }
 
     public double CheckVatForClient(ClientModel client, SellerModel seller)
@@ -43,7 +43,11 @@ public class CalculateVatServices : ICalculateVatServices
         {
             throw new Exception();
         }
-        double vat = coutryResult.Values.FirstOrDefault(x => x.Region == countryCode).CountryVat;    
+        if(coutryResult.Values.Where(x => x.Region == countryCode).FirstOrDefault().CountryVat == 0)
+        {
+            return 0;
+        }
+        double vat = coutryResult.Values.Where(x => x.Region == countryCode).FirstOrDefault().CountryVat;    
         return vat;
     }
 }

@@ -4,16 +4,16 @@ namespace InvoiceTask.Business.Services;
 
 public class InvoiceServices : IInvoiceServices
 {
-    ICalculateVatServices calculateVatServices = new CalculateVatServices();
+    ICalculateVatServices _calculateVatServices;
 
     public InvoiceServices()
     {
-       
+        _calculateVatServices = new CalculateVatServices();
     }
 
     public void GenerateInvoiceWithVat(OrdersModel order)
     {
-        var vatResult = calculateVatServices.CheckVatForClient(order.Client, order.Seller);
+        var vatResult = _calculateVatServices.CheckVatForClient(order.Client, order.Seller);
 
         for (int i = 0; i < order.OrdersLines.Count; i++)
         {

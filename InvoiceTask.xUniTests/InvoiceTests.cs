@@ -21,8 +21,8 @@ namespace InvoiceTask.xUniTests
         public async void When_SellerVatIsFalse_ReturnZero()
         {
             // Arrange
-            client = new() { Region = "Europe", isBusinessCustomer = true };
-            seller = new() { Region = "Antarctic", IsVatPayer = false};
+            client = new ClientModel(true ,"Europe");
+            seller = new("UAB Naujokai", "Antarctic" , false);
 
             // Act
             await Task.Run(() => countryServices.GetCountriesFromApiAsync());
@@ -37,8 +37,8 @@ namespace InvoiceTask.xUniTests
         public async void When_ClientNotFromEurope_ReturnZero()
         {
             // Arrange
-            client = new() { Region = "Asia" };
-            seller = new(){ Region = "Europe" };
+            client = new ClientModel(true, "Asia");
+            seller = new SellerModel("UAB Intern", "Europe");
 
             // Act
             await Task.Run(() => countryServices.GetCountriesFromApiAsync());
@@ -53,8 +53,8 @@ namespace InvoiceTask.xUniTests
         public async void When_ClientAndSellerNotFromSameRegion_ReturnSellerRegionVat()
         {
             // Arrange
-            client = new() { Region = "Europe" };
-            seller = new() { Region = "Asia" };
+            client = new ClientModel(true, "Europe");
+            seller = new SellerModel("UAB Programuotojas", "Asia");
 
             // Act
             await Task.Run(() => countryServices.GetCountriesFromApiAsync());
@@ -69,8 +69,8 @@ namespace InvoiceTask.xUniTests
         public async void When_ClientAndSellerFromSameRegion_ReturnRegionVat()
         {
             // Arrange
-            client = new() { Region = "Central America" };
-            seller = new() { Region = "Central America" };
+            client = new ClientModel(true, "Central America");
+            seller = new SellerModel("UAB Keturi", "Central America");
 
             // Act
             await Task.Run(() => countryServices.GetCountriesFromApiAsync());
