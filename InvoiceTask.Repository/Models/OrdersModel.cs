@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.ComponentModel;
 
 namespace InvoiceTask.Repository.Models;
@@ -30,33 +31,43 @@ public class OrdersModel
 
     public int Discount
     {
-        get { return _discount; }
+        get
+        {
+            if (_discount > -1 && _discount < 40)
+            {
+                return _discount;
+            }
+            throw new ArgumentOutOfRangeException("Discount", "Discount cannot be less then 0, or greater than 40.");
+        }
+
         set
         {
-            if (value > 0 && value < 40)
+            if (_discount > -1 && _discount < 40)
             {
                 _discount = value;
             }
-            else
-            {
-                throw new ArgumentOutOfRangeException("Discount", "Discount cannot be less then 0, or greater than 40.");
-            }
+            throw new ArgumentOutOfRangeException("Discount", "Discount cannot be less then 0, or greater than 40.");
         }
     }
 
     public int Vat
     {
-        get { return Convert.ToInt32(_vat); }
+        get
+        {
+            if (_vat > -1 && _vat < 100)
+            {
+                return Convert.ToInt32(_vat);
+            }
+            throw new ArgumentOutOfRangeException("Vat", "Vat cannot be less then 0, or greater than 100.");
+        }
+
         set
         {
-            if (value > 0 && value < 100)
+            if (_vat > -1 && _vat < 100)
             {
                 _vat = Convert.ToInt32(value);
             }
-            else
-            {
-                throw new ArgumentOutOfRangeException("Vat", "Vat cannot be less then 0, or greater than 100.");
-            }
+            throw new ArgumentOutOfRangeException("Vat", "Vat cannot be less then 0, or greater than 100.");
         }
     }
 }

@@ -15,6 +15,10 @@ public class OrderLineModel
     {
         get
         {
+            if (_amount < 0)
+            {
+                throw new ArgumentOutOfRangeException("Amount", "Amount must be bigger then 0");
+            }
             return _amount;
         }
         set

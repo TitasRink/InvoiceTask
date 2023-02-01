@@ -8,7 +8,7 @@ IInvoiceServices invoiceServices = new InvoiceServices();
 List<OrderLineModel> productListOne = new()
 {
     new (new ProductModel("Kefyras", 2.0) , 2),
-    new (new ProductModel("Bananas", 1.5), 3),
+    new (new ProductModel("Bananas", 3), 3),
     new (new ProductModel("Pienas", 1.0), 1),
     new (new ProductModel("Kava", 8.50), 2)
 };

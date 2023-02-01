@@ -14,45 +14,43 @@ public class InvoiceServices : IInvoiceServices
 
     public string GenerateInvoiceWithVat(OrdersModel order)
     {
+        OrdersModel returnOrder = order;
         var vatResult = _calculateVatServices.CheckVatForClient(order.Client, order.Seller);
         string modelJson = "";
-        
 
-        if (order != null)
+        if (returnOrder != null)
         {
-            for (int i = 0; i < order.OrdersLines.Count; i++)
+            for (int i = 0; i < returnOrder.OrdersLines.Count; i++)
             {
-                var result = order.OrdersLines[i].Amount * order.OrdersLines[i].Product.Price;
-
-                order.OrdersLines[i].Total = result;
-
-                order.Total = order.Total + order.OrdersLines[i].Total;
+                var result = returnOrder.OrdersLines[i].Amount * returnOrder.OrdersLines[i].Product.Price;
+                returnOrder.OrdersLines[i].Total = result;
+                returnOrder.Total = returnOrder.Total + returnOrder.OrdersLines[i].Total;
             }
 
             if (Convert.ToDouble(vatResult) == 0)
             {
-                order.Vat = 0;
-                order.TotalWithVat = order.Total;
+                returnOrder.Vat = 0;
+                returnOrder.TotalWithVat = returnOrder.Total;
             }
-            else if (order.Discount !=0)
+            else if (returnOrder.Discount !=0)
             {
                 var vatPercent = vatResult;
-                order.Vat = (int)vatPercent;
-                var total = order.Total;
-                decimal discount = (decimal)total * ((decimal)order.Discount / 100) ;
+                returnOrder.Vat = (int)vatPercent;
+                var total = returnOrder.Total;
+                decimal discount = (decimal)total * ((decimal)returnOrder.Discount / 100) ;
                 var totalWIthDiscount = total - (double)discount;
                 var totalWithVat = totalWIthDiscount + (totalWIthDiscount * (vatPercent / 100));
-                order.TotalWithVat = Math.Round(totalWithVat, 2);
+                returnOrder.TotalWithVat = Math.Round(totalWithVat, 2);
             }
             else
             {
                 var vatPercent = vatResult;
-                order.Vat = (int)vatPercent;
-                var totalWithVat = order.Total + order.Total * (vatPercent / 100);
-                order.TotalWithVat = Math.Round(totalWithVat, 2);
+                returnOrder.Vat = (int)vatPercent;
+                var totalWithVat = returnOrder.Total + returnOrder.Total * (vatPercent / 100);
+                returnOrder.TotalWithVat = Math.Round(totalWithVat, 2);
             }
 
-             modelJson = JsonConvert.SerializeObject(order);
+             modelJson = JsonConvert.SerializeObject(returnOrder);
         }
         return modelJson;
     }

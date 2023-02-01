@@ -1,4 +1,6 @@
-﻿namespace InvoiceTask.Repository.Models;
+﻿using Newtonsoft.Json.Linq;
+
+namespace InvoiceTask.Repository.Models;
 
 public class ProductModel
 {
@@ -12,10 +14,17 @@ public class ProductModel
 
     public double Price
     {
-        get { return _price; } 
+        get
+        {
+            if (_price < 0)
+            {
+                throw new ArgumentOutOfRangeException("Price", "Price cannot be less then 0");
+            }
+            return _price;
+        }
         set
         {
-            if (value < 0)
+            if (_price < 0)
             {
                 throw new ArgumentOutOfRangeException("Price", "Price cannot be less then 0");
             }
@@ -25,10 +34,17 @@ public class ProductModel
 
     public string Name 
     { 
-        get { return _name; }
+        get
+        {
+            if (_name.Length < 3)
+            {
+                throw new ArgumentOutOfRangeException("Name", "Name lenght much be bigger then 3 chars");
+            }
+            return _name; 
+        }
         set
         {
-            if(_name.Length < 3)
+            if (_name.Length < 3)
             {
                 throw new ArgumentOutOfRangeException("Name", "Name lenght much be bigger then 3 chars");
             }
