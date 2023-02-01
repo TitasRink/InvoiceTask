@@ -2,6 +2,6 @@
 {
     public interface ICalculateVatServices
     {
-        double CheckVatForClient(ClientModel client, SellerModel seller);
+        double CheckVatForClient(CustomerModel client, SupplierModel seller);
     }
 }

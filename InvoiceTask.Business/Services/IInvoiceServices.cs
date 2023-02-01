@@ -2,6 +2,6 @@
 {
     public interface IInvoiceServices
     {
-        void GenerateInvoiceWithVat(OrdersModel order);
+        string GenerateInvoiceWithVat(OrdersModel order);
     }
 }

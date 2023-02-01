@@ -9,7 +9,7 @@ public class CalculateVatServices : ICalculateVatServices
         _countryServices = new CountryServices();
     }
 
-    public double CheckVatForClient(ClientModel client, SellerModel seller)
+    public double CheckVatForClient(CustomerModel client, SupplierModel seller)
     {
         if (client == null || seller == null)
         {
@@ -47,6 +47,7 @@ public class CalculateVatServices : ICalculateVatServices
         {
             throw new Exception();
         }
+
         double vat = coutryResult.Values.Where(x => x.Region == countryCode).FirstOrDefault().CountryVat;    
         return vat;
     }

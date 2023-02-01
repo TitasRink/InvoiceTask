@@ -1,10 +1,9 @@
 ﻿using InvoiceTask.Business.Services;
 using InvoiceTask.Repository.Models;
 
-
 IInvoiceServices invoiceServices = new InvoiceServices();
 
-// Creating model to pass to method
+// Creating model to generate Invoice
 
 List<OrderLineModel> productListOne = new()
 {
@@ -14,13 +13,26 @@ List<OrderLineModel> productListOne = new()
     new (new ProductModel("Kava", 8.50), 2)
 };
 
-ClientModel clientEurope = new ClientModel(true, "Asia");
-SellerModel sellerEurope = new SellerModel("UAB Parduodu", "Asia");
-OrdersModel OrderOne = new OrdersModel(sellerEurope, clientEurope, productListOne);
+CustomerModel cutomerOne = new ("im.k. 384456222",
+                                "LT31544654156465132",
+                                "Liepu g. 25",
+                                "UAB Perku",
+                                true,
+                                "Asia");
+
+SupplierModel supplierOne = new ("UAB Parduodu",
+                                 "Asia",
+                                 true,
+                                 "im.k. 45661213123",
+                                 "Klaipedos g. 25-5",
+                                 "LT231321232323231");
+
+OrdersModel orderOne = new (supplierOne, cutomerOne, productListOne);
+OrdersModel orderWithDisciunt = new(supplierOne, cutomerOne, productListOne, 5);
 
 
 
-invoiceServices.GenerateInvoiceWithVat(OrderOne);
-
+var InvoiceResult = invoiceServices.GenerateInvoiceWithVat(orderOne);
+Console.WriteLine(InvoiceResult);
 
 
