@@ -2,6 +2,7 @@
 
 public class SupplierModel : BaseSupplierCustomer
 {
+    public int Id { get; set; }
     public bool IsVatPayer { get; set; } = true;
     public string BusinessCode { get; set; }
 

@@ -4,6 +4,7 @@ namespace InvoiceTask.Repository.Models;
 
 public class ProductModel
 {
+    public int Id { get; set; }
     public string _name { get; set; }
     public double _price { get; set; } = 0;
     public ProductModel(string name, double price)

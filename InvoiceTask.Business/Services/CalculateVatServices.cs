@@ -9,28 +9,28 @@ public class CalculateVatServices : ICalculateVatServices
         _countryServices = new CountryServices();
     }
 
-    public double CheckVatForClient(CustomerModel client, SupplierModel seller)
+    public double CheckVatForClient(CustomerModel customer, SupplierModel supplier)
     {
-        if (client == null || seller == null)
+        if (customer == null || supplier == null)
         {
             throw new Exception();
         }
-        if (seller.IsVatPayer == false)
+        if (supplier.IsVatPayer == false)
         {
             return 0;
         }
-        if (seller.IsVatPayer && client.Region != "Europe" && seller.Region == " Europe")
+        if (supplier.IsVatPayer && customer.Region != "Europe" && supplier.Region == " Europe")
         {
             return 0;
         }
-        if (seller.IsVatPayer && client.Region == "Europe" && client.Region != seller.Region)
+        if (supplier.IsVatPayer && customer.Region == "Europe" && customer.Region != supplier.Region)
         {
-            double result = GetVatByCountry(seller.Region);
+            double result = GetVatByCountry(supplier.Region);
             return result;
         }
-        if (seller.IsVatPayer && seller.Region == client.Region)
+        if (supplier.IsVatPayer && supplier.Region == customer.Region)
         {
-            double result = GetVatByCountry(seller.Region);
+            double result = GetVatByCountry(supplier.Region);
             return result;
         }
         return 0;

@@ -6,6 +6,7 @@ namespace InvoiceTask.Repository.Models;
 
 public class OrdersModel
 {
+    public int Id { get; set; }
     public SupplierModel Seller { get; set; }
     public CustomerModel Client { get; set; }
     public List<OrderLineModel> OrdersLines { get; set; }
@@ -14,6 +15,10 @@ public class OrdersModel
     public int _vat { get; set; }
     public double TotalWithVat { get; set; }
 
+    public OrdersModel()
+    {
+
+    }
 
     public OrdersModel(SupplierModel seller, CustomerModel client, List<OrderLineModel> ordersLines)
     {
@@ -63,11 +68,7 @@ public class OrdersModel
 
         set
         {
-            if (_vat > -1 && _vat < 100)
-            {
-                _vat = Convert.ToInt32(value);
-            }
-            throw new ArgumentOutOfRangeException("Vat", "Vat cannot be less then 0, or greater than 100.");
+            _vat = Convert.ToInt32(value);
         }
     }
 }

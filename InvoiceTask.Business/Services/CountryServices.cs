@@ -37,6 +37,8 @@ public class CountryServices : ICountryServices
         double Antarctic = 15;
         double Asia = 10;
         double CentralAmerica = 30;
+        double Europe = 21;
+
         var regionDistinct = model.Values.Select(x => x.Region).Distinct().ToList();
 
         if (regionDistinct != null)
