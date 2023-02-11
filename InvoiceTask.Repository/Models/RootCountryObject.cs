@@ -5,5 +5,5 @@ namespace InvoiceTask.Repository.Models;
 public class RootCountryObject
 {
     [JsonProperty("data")]
-    public Dictionary<string, CountriesModel> CountriesData { get; set; }
+    public Dictionary<string, CountriesModel> CountriesData { get; set; } = new Dictionary<string, CountriesModel>();
 }

@@ -1,11 +1,10 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace InvoiceTask.Business.Services;
 
 public class InvoiceServices : IInvoiceServices
 {
-    ICalculateVatServices _calculateVatServices;
+    private readonly ICalculateVatServices _calculateVatServices;
 
     public InvoiceServices()
     {
@@ -14,11 +13,12 @@ public class InvoiceServices : IInvoiceServices
 
     public string GenerateInvoiceWithVat(OrdersModel order)
     {
-        OrdersModel returnOrder = order;
+        OrdersModel returnOrder = (order is null) ? throw new ArgumentNullException("Object is empty") : order;
+
         var vatResult = _calculateVatServices.CheckVatForClient(order.Client, order.Seller);
         string modelJson = "";
 
-        if (returnOrder != null)
+        if (returnOrder is not null)
         {
             for (int i = 0; i < returnOrder.OrdersLines.Count; i++)
             {

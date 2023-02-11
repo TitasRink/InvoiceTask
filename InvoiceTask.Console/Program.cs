@@ -40,7 +40,7 @@ OrdersModel orderWithDisciunt = new(supplierOne, cutomerOne, productListOne, 5);
 OrdersModel orderWithoutVat = new(supplierTwo, cutomerOne, productListOne, 5);
 
 
-
+// Change orders model to get other results
 
 var InvoiceResult = invoiceServices.GenerateInvoiceWithVat(orderWithoutVat);
 Console.WriteLine(InvoiceResult);

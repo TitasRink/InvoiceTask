@@ -13,8 +13,8 @@ public class CalculateVatServicesTests
     ICalculateVatServices vatServices = new CalculateVatServices();
     ICountryServices countryServices = new CountryServices();
 
-    CustomerModel client;
-    SupplierModel seller;
+    CustomerModel? client;
+    SupplierModel? seller;
 
     // TASK 1
     [Fact]

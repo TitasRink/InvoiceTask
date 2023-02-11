@@ -2,9 +2,8 @@
 
 public class SupplierModel : BaseSupplierCustomer
 {
-    public int Id { get; set; }
     public bool IsVatPayer { get; set; } = true;
-    public string BusinessCode { get; set; }
+    public string BusinessCode { get; set; } = string.Empty;
 
 
     public SupplierModel(string name, string region, bool isVatPayer, string businessCode, string address, string bankAccountCode)

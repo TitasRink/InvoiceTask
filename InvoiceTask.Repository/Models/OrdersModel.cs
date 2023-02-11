@@ -7,9 +7,9 @@ namespace InvoiceTask.Repository.Models;
 public class OrdersModel
 {
     public int Id { get; set; }
-    public SupplierModel Seller { get; set; }
-    public CustomerModel Client { get; set; }
-    public List<OrderLineModel> OrdersLines { get; set; }
+    public SupplierModel? Seller { get; set; }
+    public CustomerModel? Client { get; set; }
+    public List<OrderLineModel>? OrdersLines { get; set; }
     public double Total { get; set; }
     public int _discount { get; set; }
     public int _vat { get; set; }

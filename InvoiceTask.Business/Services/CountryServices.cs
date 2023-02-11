@@ -16,7 +16,7 @@ public class CountryServices : ICountryServices
             string data = await response.Content.ReadAsStringAsync();
             RootCountryObject obj = JsonConvert.DeserializeObject<RootCountryObject>(data);
 
-            if (obj != null)
+            if (obj is not null)
             {
                 foreach (var entry in obj.CountriesData)
                 {
@@ -25,23 +25,22 @@ public class CountryServices : ICountryServices
                 AddVatToCountries(root);
                 return root;
             }
-            throw new Exception();
+            throw new NullReferenceException("no data found in json");
         }
-        throw new Exception();
+        throw new NullReferenceException("Something is wrong with connection. Please try again later");
     }
 
     //Adding Vat to regions
     public void AddVatToCountries(Dictionary<string, CountriesModel> model)
     {
-        double Africa = 20;
-        double Antarctic = 15;
-        double Asia = 10;
-        double CentralAmerica = 30;
-        double Europe = 21;
+        const double Africa = 20;
+        const double Antarctic = 15;
+        const double Asia = 10;
+        const double CentralAmerica = 30;
 
         var regionDistinct = model.Values.Select(x => x.Region).Distinct().ToList();
 
-        if (regionDistinct != null)
+        if (regionDistinct is not null)
         {
             for (int i = 0; i < regionDistinct.Count; i++)
             {
@@ -63,6 +62,7 @@ public class CountryServices : ICountryServices
                 }
             }
         }
+        throw new NullReferenceException("No data found");
     }
 }
 

@@ -3,7 +3,7 @@
 public class OrderLineModel 
 {
     public int Id { get; set; }
-    public ProductModel Product { get; set; }
+    public ProductModel? Product { get; set; }
     public int _amount { get; set; } = 0;
     public double Total { get; set; }
     public OrderLineModel()

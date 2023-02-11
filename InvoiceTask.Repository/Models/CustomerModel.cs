@@ -2,9 +2,8 @@
 
 public class CustomerModel :BaseSupplierCustomer
 {
-    public int Id { get; set; }
     public bool IsBusinessCustomer { get; set; } = true;
-    public string BusinessCode { get; set; }
+    public string BusinessCode { get; set; } = string.Empty;
 
     public CustomerModel(string businessCode, string banckAccountCode, string address, string name ,bool isBusinessCustomer, string region)
     {

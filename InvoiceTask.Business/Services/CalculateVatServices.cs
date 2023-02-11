@@ -2,7 +2,7 @@
 
 public class CalculateVatServices : ICalculateVatServices
 {
-    private ICountryServices _countryServices;
+    private readonly ICountryServices _countryServices;
 
     public CalculateVatServices()
     {
@@ -11,45 +11,34 @@ public class CalculateVatServices : ICalculateVatServices
 
     public double CheckVatForClient(CustomerModel customer, SupplierModel supplier)
     {
-        if (customer == null || supplier == null)
+        if (customer is null || supplier.Region is null)
         {
-            throw new Exception();
+            throw new NullReferenceException("No customer or supplier found");
         }
-        if (supplier.IsVatPayer == false)
+        else
         {
+            if (supplier.IsVatPayer == false || supplier.IsVatPayer && customer.Region != "Europe" && supplier.Region == " Europe")
+            {
+                return 0;
+            }
+            if (supplier.IsVatPayer && customer.Region == "Europe" && customer.Region != supplier.Region ||
+                supplier.IsVatPayer && supplier.Region == customer.Region)
+            {
+                double result = GetVatByCountry(supplier.Region);
+                return result;
+            }
             return 0;
         }
-        if (supplier.IsVatPayer && customer.Region != "Europe" && supplier.Region == " Europe")
-        {
-            return 0;
-        }
-        if (supplier.IsVatPayer && customer.Region == "Europe" && customer.Region != supplier.Region)
-        {
-            double result = GetVatByCountry(supplier.Region);
-            return result;
-        }
-        if (supplier.IsVatPayer && supplier.Region == customer.Region)
-        {
-            double result = GetVatByCountry(supplier.Region);
-            return result;
-        }
-        return 0;
     }
 
     private double GetVatByCountry(string countryCode)
     {
         var coutryResult = _countryServices.GetCountriesFromApiAsync().Result;
-        if (coutryResult == null)
-        {
-            throw new Exception();
-        }
-        if(coutryResult.Values.Where(x => x.Region == countryCode).FirstOrDefault().CountryVat == null)
-        {
-            throw new Exception();
-        }
+        var result = (coutryResult is null || coutryResult.Values.First(x => x.Region == countryCode).CountryVat == 0) 
+            ? throw new NullReferenceException("Error no info found") 
+            : coutryResult.Values.Where(x => x.Region == countryCode).First().CountryVat;
 
-        double vat = coutryResult.Values.Where(x => x.Region == countryCode).FirstOrDefault().CountryVat;    
-        return vat;
+        return result;
     }
 }
 
