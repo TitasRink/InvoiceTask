@@ -21,8 +21,8 @@ public class CalculateVatServices : ICalculateVatServices
             {
                 return 0;
             }
-            if (supplier.IsVatPayer && customer.Region == "Europe" && customer.Region != supplier.Region ||
-                supplier.IsVatPayer && supplier.Region == customer.Region)
+            if ((supplier.IsVatPayer && customer.Region == "Europe" && customer.Region != supplier.Region) ||
+                (supplier.IsVatPayer && supplier.Region == customer.Region))
             {
                 double result = GetVatByCountry(supplier.Region);
                 return result;
@@ -34,11 +34,16 @@ public class CalculateVatServices : ICalculateVatServices
     private double GetVatByCountry(string countryCode)
     {
         var coutryResult = _countryServices.GetCountriesFromApiAsync().Result;
-        var result = (coutryResult is null || coutryResult.Values.First(x => x.Region == countryCode).CountryVat == 0) 
-            ? throw new NullReferenceException("Error no info found") 
-            : coutryResult.Values.Where(x => x.Region == countryCode).First().CountryVat;
-
-        return result;
+        if (coutryResult == null)
+        {
+            throw new NullReferenceException("No result found");
+        }
+        if (countryCode == "Europe")
+        {
+            return 0;
+        }
+        double vat = coutryResult.Values.Where(x => x.Region == countryCode).FirstOrDefault().CountryVat;
+        return vat;
     }
 }
 

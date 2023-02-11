@@ -62,7 +62,10 @@ public class CountryServices : ICountryServices
                 }
             }
         }
-        throw new NullReferenceException("No data found");
+        else
+        {
+            throw new NullReferenceException("No data found");
+        }
     }
 }
 
