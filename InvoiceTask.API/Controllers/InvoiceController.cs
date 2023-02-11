@@ -1,8 +1,6 @@
 ﻿using InvoiceTask.Business.Services;
 using InvoiceTask.Repository.Models;
 using Microsoft.AspNetCore.Mvc;
-using InvoiceTask.API.ModelVM;
-using Newtonsoft.Json;
 
 namespace InvoiceTask.API.Controllers
 {
