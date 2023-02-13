@@ -2,8 +2,7 @@
 
 Using  6 .net core
 
-SQL
-Entityframework
+API swager
 Json
 xUnitests
 
